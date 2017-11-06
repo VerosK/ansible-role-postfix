@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: VerosK
+  description: Postfix
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.3
+  platforms:
+    - name: EL
+      versions:
+      - 7
+    - name: ubuntu
+      versions:
+      - xenial
+  galaxy_tags:
+    - mail

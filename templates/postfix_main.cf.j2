@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+
+# CentOS 7 base setup
+{{ postfix_paths }}
+
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+debug_peer_level = 2
+html_directory = no
+
+{% if postfix_hostname is defined %}
+myhostname = {{ postfix_hostname }}
+{% endif %}
+#
+inet_interfaces = localhost
+inet_protocols = all
+mydestination = localhost
+
+mynetworks = 127.0.0.0/8, [::1]/128
+smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination
+
+maximal_queue_lifetime = {{ postfix_maximum_queue_lifetime }}
+
+{% if postfix_extra_config is defined %}
+# additional postfix config from postfix_extra_config
+{{ postfix_extra_config }}
+{% endif %}

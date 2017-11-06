@@ -1,0 +1,14 @@
+---
+postfix_service_name: postfix
+postfix_package_names:
+  - postfix
+
+postfix_main_config: /etc/postfix/main.cf
+
+postfix_paths: |
+   queue_directory = /var/spool/postfix
+   command_directory = /usr/sbin
+   daemon_directory = /usr/libexec/postfix
+   data_directory = /var/lib/postfix
+   mail_owner = postfix
+   setgid_group = postdrop

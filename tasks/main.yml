@@ -1,0 +1,44 @@
+---
+- name: Add the OS specific variables
+  include_vars: '{{ ansible_os_family }}.yml'
+  tags: [ 'configuration', 'package', 'service', 'postfix' ]
+  
+- name: Install the required packages in Redhat derivatives
+  yum:
+    name: '{{ postfix_package_names }}'
+    state: '{{ postfix_pkg_state }}'
+  when: ansible_os_family == 'RedHat'
+  tags: [ 'package', 'postfix' ]
+
+- name: Install the require packages in Debian derivatives
+  apt:
+    name: '{{ postfix_package_names }}'
+    state: '{{ postfix_pkg_state }}'
+  when: ansible_os_family == 'Debian'
+  tags: [ 'package', 'postfix' ]
+
+- name: Copy the postfix.conf template file
+  template:
+    src: postfix_main.cf.j2
+    dest: '{{ postfix_main_config }}'
+    backup: yes
+  notify:
+  - restart postfix
+  tags: [ 'configuration', 'package', 'postfix' ]
+
+- name: Set-up map files
+  copy:
+    content: '{{ item.content }}'
+    dest: '{{ item.map_file }}'
+  with_items: '{{ postfix_extra_maps }}'
+  when: postfix_extra_maps is defined
+  notify:
+    - restart postfix
+
+- name: Start/stop postfix service
+  service:
+    name: '{{ postfix_service_name }}'
+    state: '{{ postfix_service_state }}'
+    enabled: '{{ postfix_service_enabled }}'
+  tags: [ 'service', 'postfix' ]
+

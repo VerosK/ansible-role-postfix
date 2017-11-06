@@ -1,0 +1,11 @@
+---
+postfix_pkg_state: 'installed'
+postfix_service_state: 'started'
+postfix_service_enabled: 'yes'
+postfix_hostname: '{{ ansible_fqdn }}'
+
+postfix_config_logdir: '/var/log/postfix'
+
+postfix_maximum_queue_lifetime: 1d
+
+postfix_extra_config: "# no extra config exists"
