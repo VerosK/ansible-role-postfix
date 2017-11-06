@@ -10,7 +10,7 @@ galaxy_info:
     - name: EL
       versions:
       - 7
-    - name: ubuntu
+    - name: Ubuntu
       versions:
       - xenial
   galaxy_tags:
